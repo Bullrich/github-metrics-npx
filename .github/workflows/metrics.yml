@@ -1,0 +1,25 @@
+name: Get metrics
+
+on:
+  workflow_dispatch:
+    inputs:
+      ORG:
+        description: 'Organization'
+        required: true
+        type: string
+      REPO:
+        description: 'Repository name'
+        required: true
+        type: string
+  
+jobs:
+  log-the-inputs:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/setup-node@v3
+      - name: Fetch metrics
+        run: npx @figify/gh-metrics --a $ORG --r $REPO
+        env:
+          ORG: ${{ inputs.ORG }}
+          REPO: ${{ inputs.REPO }}
+          GITHUB_TOKEN: ${{ secrets.PAT }}
